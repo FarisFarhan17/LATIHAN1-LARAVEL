@@ -1,22 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Auth;
+use App\Http\Controllers\UserController;
 
-Route::get('/signin', function () {
-    return 'Signin Form';
-});
+Route::get('/signin', [UserController::class, 'showLoginForm']);
+Route::post('/signin', [UserController::class, 'login']);
 
-Route::post('/signin', function () {
-    return 'Signin Data Processed';
-});
+Route::get('/signup', [UserController::class, 'showRegisterForm']);
+Route::post('/signup', [UserController::class, 'register']);
 
-Route::get('/signup', function () {
-    return 'Signup Form';
-});
-
-Route::post('/signup', function () {
-    return 'Signup Data Processed';
-});
 
 Route::get('/', function () {
     return 'Homepage';
@@ -48,4 +41,6 @@ Route::get('/blog/{blogId}', function ($blogId) {
     return "Blog ID: $blogId, Title: $title, Content: $content";
 });
 
-
+Route::get('/profile', function () {
+    return view('profile');
+})->middleware(Auth::class);
